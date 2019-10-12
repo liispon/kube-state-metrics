@@ -1,0 +1,23 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- dev/nvidia-cpu-cards
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: sudo apt install docker-ce
+  displayName: 'Install docker'
+
+- script: sudo apt install golang
+  displayName: 'Install golang'
+
+- script: ARCH=amd64 make container
+  displayName: 'Run a one-line script'
+
+- script: docker push $(PKG):$(TAG)
+  displayName: 'Push docker'
