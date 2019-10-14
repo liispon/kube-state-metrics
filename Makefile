@@ -1,7 +1,7 @@
 FLAGS =
 TESTENVVAR =
 REGISTRY = quay.io/coreos
-TAG = $(shell git describe --abbrev=0)
+TAG ?= $(shell git describe --abbrev=0)
 PKGS = $(shell go list ./... | grep -v /vendor/)
 ARCH ?= $(shell go env GOARCH)
 BuildDate = $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
@@ -10,7 +10,7 @@ ALL_ARCH = amd64 arm arm64 ppc64le s390x
 PKG=k8s.io/kube-state-metrics
 GO_VERSION=1.10.1
 
-IMAGE = $(REGISTRY)/kube-state-metrics
+IMAGE ?= $(REGISTRY)/kube-state-metrics
 MULTI_ARCH_IMG = $(IMAGE)-$(ARCH)
 
 gofmtcheck:
