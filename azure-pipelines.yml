@@ -40,13 +40,9 @@ steps:
     ARCH: $(ARCH)
     IMAGE: $(IMAGE)
     TAG: $(TAG)
-
 - task: Docker@2
-  displayName: Push image
   inputs:
-    containerRegistry: |
-      $(docker-hub)
-    repository: $(IMAGE)
-    command: push
-    tags: |
-      $(TAG)
+    containerRegistry: 'docker-hub'
+    repository: '$(IMAGE)'
+    command: 'push'
+    tags: '$(TAG)'
