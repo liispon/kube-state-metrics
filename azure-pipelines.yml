@@ -34,8 +34,19 @@ steps:
 - script: sudo apt install golang
   displayName: 'Install golang'
 
-- script: ARCH=amd64 IMAGE="liispon/develop" TAG="v1.0" make container
+- script: make container
   displayName: 'Run a one-line script'
+  env:
+    ARCH: $(ARCH)
+    IMAGE: $(IMAGE)
+    TAG: $(TAG)
 
-- script: docker push $IMAGE:$TAG
-  displayName: 'Push docker'
+- task: Docker@2
+  displayName: Push image
+  inputs:
+    containerRegistry: |
+      $(docker-hub)
+    repository: $(IMAGE)
+    command: push
+    tags: |
+      $(TAG)
