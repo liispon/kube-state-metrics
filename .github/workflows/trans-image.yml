@@ -3,7 +3,7 @@ name: Trans-Image
 on:
   push:
     branches:
-      - 'releases/**'
+      - 'trans_image'
 
 
 jobs:
