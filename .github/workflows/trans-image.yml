@@ -1,0 +1,32 @@
+name: Trans-Image
+
+on:
+  push:
+    branches:
+      - 'releases/**'
+
+
+jobs:
+  push-image:
+    runs-on: ubuntu-latest
+    steps:
+
+      # - name: Login Quay
+      #   uses: docker/login-action@v1
+      #   with:
+      #     registry: 'quay.io'
+      #     username: ${{ secrets.QUAY_USERNAME }}
+      #     password: ${{ secrets.QUAY_TOKEN }}
+
+      - name: Login Dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image
+        uses: akhilerm/tag-push-action@v2.0.0
+        with:
+          src: k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.4.2
+          dst: |
+            docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/kube-state-metrics:v2.4.2
