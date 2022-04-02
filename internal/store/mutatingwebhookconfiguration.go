@@ -17,26 +17,29 @@ limitations under the License.
 package store
 
 import (
-	admissionregistration "k8s.io/api/admissionregistration/v1beta1"
+	"context"
+
+	admissionregistrationv1 "k8s.io/api/admissionregistration/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	clientset "k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/cache"
 
-	"k8s.io/kube-state-metrics/pkg/metric"
+	"k8s.io/kube-state-metrics/v2/pkg/metric"
+	generator "k8s.io/kube-state-metrics/v2/pkg/metric_generator"
 )
 
 var (
-	descMutatingWebhookConfigurationHelp          = "Kubernetes labels converted to Prometheus labels."
 	descMutatingWebhookConfigurationDefaultLabels = []string{"namespace", "mutatingwebhookconfiguration"}
 
-	mutatingWebhookConfigurationMetricFamilies = []metric.FamilyGenerator{
-		{
-			Name: "kube_mutatingwebhookconfiguration_info",
-			Type: metric.Gauge,
-			Help: "Information about the MutatingWebhookConfiguration.",
-			GenerateFunc: wrapMutatingWebhookConfigurationFunc(func(mwc *admissionregistration.MutatingWebhookConfiguration) *metric.Family {
+	mutatingWebhookConfigurationMetricFamilies = []generator.FamilyGenerator{
+		*generator.NewFamilyGenerator(
+			"kube_mutatingwebhookconfiguration_info",
+			"Information about the MutatingWebhookConfiguration.",
+			metric.Gauge,
+			"",
+			wrapMutatingWebhookConfigurationFunc(func(mwc *admissionregistrationv1.MutatingWebhookConfiguration) *metric.Family {
 				return &metric.Family{
 					Metrics: []*metric.Metric{
 						{
@@ -45,12 +48,13 @@ var (
 					},
 				}
 			}),
-		},
-		{
-			Name: "kube_mutatingwebhookconfiguration_created",
-			Type: metric.Gauge,
-			Help: "Unix creation timestamp.",
-			GenerateFunc: wrapMutatingWebhookConfigurationFunc(func(mwc *admissionregistration.MutatingWebhookConfiguration) *metric.Family {
+		),
+		*generator.NewFamilyGenerator(
+			"kube_mutatingwebhookconfiguration_created",
+			"Unix creation timestamp.",
+			metric.Gauge,
+			"",
+			wrapMutatingWebhookConfigurationFunc(func(mwc *admissionregistrationv1.MutatingWebhookConfiguration) *metric.Family {
 				ms := []*metric.Metric{}
 
 				if !mwc.CreationTimestamp.IsZero() {
@@ -62,46 +66,40 @@ var (
 					Metrics: ms,
 				}
 			}),
-		},
-		{
-			Name: "kube_mutatingwebhookconfiguration_metadata_resource_version",
-			Type: metric.Gauge,
-			Help: "Resource version representing a specific version of the MutatingWebhookConfiguration.",
-			GenerateFunc: wrapMutatingWebhookConfigurationFunc(func(mwc *admissionregistration.MutatingWebhookConfiguration) *metric.Family {
+		),
+		*generator.NewFamilyGenerator(
+			"kube_mutatingwebhookconfiguration_metadata_resource_version",
+			"Resource version representing a specific version of the MutatingWebhookConfiguration.",
+			metric.Gauge,
+			"",
+			wrapMutatingWebhookConfigurationFunc(func(mwc *admissionregistrationv1.MutatingWebhookConfiguration) *metric.Family {
 				return &metric.Family{
-					Metrics: []*metric.Metric{
-						{
-							LabelKeys:   []string{"resource_version"},
-							LabelValues: []string{mwc.ObjectMeta.ResourceVersion},
-							Value:       1,
-						},
-					},
+					Metrics: resourceVersionMetric(mwc.ObjectMeta.ResourceVersion),
 				}
 			}),
-		},
+		),
 	}
 )
 
-func createMutatingWebhookConfigurationListWatch(kubeClient clientset.Interface, ns string) cache.ListerWatcher {
+func createMutatingWebhookConfigurationListWatch(kubeClient clientset.Interface, ns string, fieldSelector string) cache.ListerWatcher {
 	return &cache.ListWatch{
 		ListFunc: func(opts metav1.ListOptions) (runtime.Object, error) {
-			return kubeClient.AdmissionregistrationV1beta1().MutatingWebhookConfigurations().List(opts)
+			return kubeClient.AdmissionregistrationV1().MutatingWebhookConfigurations().List(context.TODO(), opts)
 		},
 		WatchFunc: func(opts metav1.ListOptions) (watch.Interface, error) {
-			return kubeClient.AdmissionregistrationV1beta1().MutatingWebhookConfigurations().Watch(opts)
+			return kubeClient.AdmissionregistrationV1().MutatingWebhookConfigurations().Watch(context.TODO(), opts)
 		},
 	}
 }
 
-func wrapMutatingWebhookConfigurationFunc(f func(*admissionregistration.MutatingWebhookConfiguration) *metric.Family) func(interface{}) *metric.Family {
+func wrapMutatingWebhookConfigurationFunc(f func(*admissionregistrationv1.MutatingWebhookConfiguration) *metric.Family) func(interface{}) *metric.Family {
 	return func(obj interface{}) *metric.Family {
-		mutatingWebhookConfiguration := obj.(*admissionregistration.MutatingWebhookConfiguration)
+		mutatingWebhookConfiguration := obj.(*admissionregistrationv1.MutatingWebhookConfiguration)
 
 		metricFamily := f(mutatingWebhookConfiguration)
 
 		for _, m := range metricFamily.Metrics {
-			m.LabelKeys = append(descMutatingWebhookConfigurationDefaultLabels, m.LabelKeys...)
-			m.LabelValues = append([]string{mutatingWebhookConfiguration.Namespace, mutatingWebhookConfiguration.Name}, m.LabelValues...)
+			m.LabelKeys, m.LabelValues = mergeKeyValues(descMutatingWebhookConfigurationDefaultLabels, []string{mutatingWebhookConfiguration.Namespace, mutatingWebhookConfiguration.Name}, m.LabelKeys, m.LabelValues)
 		}
 
 		return metricFamily
