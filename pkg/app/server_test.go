@@ -218,6 +218,7 @@ func TestFullScrapeCycle(t *testing.T) {
 # HELP kube_pod_init_container_status_terminated_reason Describes the reason the init container is currently in terminated state.
 # HELP kube_pod_init_container_status_waiting Describes whether the init container is currently in waiting state.
 # HELP kube_pod_init_container_status_waiting_reason Describes the reason the init container is currently in waiting state.
+# HELP kube_pod_ips Pod IP addresses
 # HELP kube_pod_labels Kubernetes labels converted to Prometheus labels.
 # HELP kube_pod_overhead_cpu_cores The pod overhead in regards to cpu cores associated with running a pod.
 # HELP kube_pod_overhead_memory_bytes The pod overhead in regards to memory associated with running a pod.
@@ -261,6 +262,7 @@ func TestFullScrapeCycle(t *testing.T) {
 # TYPE kube_pod_init_container_status_terminated_reason gauge
 # TYPE kube_pod_init_container_status_waiting gauge
 # TYPE kube_pod_init_container_status_waiting_reason gauge
+# TYPE kube_pod_ips gauge
 # TYPE kube_pod_labels gauge
 # TYPE kube_pod_overhead_cpu_cores gauge
 # TYPE kube_pod_overhead_memory_bytes gauge
@@ -277,8 +279,8 @@ func TestFullScrapeCycle(t *testing.T) {
 # TYPE kube_pod_status_scheduled_time gauge
 # TYPE kube_pod_status_unschedulable gauge
 kube_pod_annotations{namespace="default",pod="pod0",uid="abc-0"} 1
-kube_pod_container_info{namespace="default",pod="pod0",uid="abc-0",container="container2",image_spec="k8s.gcr.io/hyperkube2_spec",image="k8s.gcr.io/hyperkube2",image_id="docker://sha256:bbb",container_id="docker://cd456"} 1
-kube_pod_container_info{namespace="default",pod="pod0",uid="abc-0",container="container3",image_spec="k8s.gcr.io/hyperkube3_spec",image="k8s.gcr.io/hyperkube3",image_id="docker://sha256:ccc",container_id="docker://ef789"} 1
+kube_pod_container_info{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1",image_spec="k8s.gcr.io/hyperkube2_spec",image="k8s.gcr.io/hyperkube2",image_id="docker://sha256:bbb",container_id="docker://cd456"} 1
+kube_pod_container_info{namespace="default",pod="pod0",uid="abc-0",container="pod1_con2",image_spec="k8s.gcr.io/hyperkube3_spec",image="k8s.gcr.io/hyperkube3",image_id="docker://sha256:ccc",container_id="docker://ef789"} 1
 kube_pod_container_resource_limits{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1",node="node1",resource="cpu",unit="core"} 0.2
 kube_pod_container_resource_limits{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1",node="node1",resource="ephemeral_storage",unit="byte"} 3e+08
 kube_pod_container_resource_limits{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1",node="node1",resource="memory",unit="byte"} 1e+08
@@ -293,18 +295,18 @@ kube_pod_container_resource_requests{namespace="default",pod="pod0",uid="abc-0",
 kube_pod_container_resource_requests{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1",node="node1",resource="storage",unit="byte"} 4e+08
 kube_pod_container_resource_requests{namespace="default",pod="pod0",uid="abc-0",container="pod1_con2",node="node1",resource="cpu",unit="core"} 0.3
 kube_pod_container_resource_requests{namespace="default",pod="pod0",uid="abc-0",container="pod1_con2",node="node1",resource="memory",unit="byte"} 2e+08
-kube_pod_container_status_last_terminated_reason{namespace="default",pod="pod0",uid="abc-0",container="container2",reason="OOMKilled"} 1
-kube_pod_container_status_ready{namespace="default",pod="pod0",uid="abc-0",container="container2"} 0
-kube_pod_container_status_ready{namespace="default",pod="pod0",uid="abc-0",container="container3"} 0
-kube_pod_container_status_restarts_total{namespace="default",pod="pod0",uid="abc-0",container="container2"} 0
-kube_pod_container_status_restarts_total{namespace="default",pod="pod0",uid="abc-0",container="container3"} 0
-kube_pod_container_status_running{namespace="default",pod="pod0",uid="abc-0",container="container2"} 0
-kube_pod_container_status_running{namespace="default",pod="pod0",uid="abc-0",container="container3"} 0
-kube_pod_container_status_terminated{namespace="default",pod="pod0",uid="abc-0",container="container2"} 0
-kube_pod_container_status_terminated{namespace="default",pod="pod0",uid="abc-0",container="container3"} 0
-kube_pod_container_status_waiting_reason{namespace="default",pod="pod0",uid="abc-0",container="container2",reason="CrashLoopBackOff"} 1
-kube_pod_container_status_waiting{namespace="default",pod="pod0",uid="abc-0",container="container2"} 1
-kube_pod_container_status_waiting{namespace="default",pod="pod0",uid="abc-0",container="container3"} 0
+kube_pod_container_status_last_terminated_reason{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1",reason="OOMKilled"} 1
+kube_pod_container_status_ready{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1"} 0
+kube_pod_container_status_ready{namespace="default",pod="pod0",uid="abc-0",container="pod1_con2"} 0
+kube_pod_container_status_restarts_total{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1"} 0
+kube_pod_container_status_restarts_total{namespace="default",pod="pod0",uid="abc-0",container="pod1_con2"} 0
+kube_pod_container_status_running{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1"} 0
+kube_pod_container_status_running{namespace="default",pod="pod0",uid="abc-0",container="pod1_con2"} 0
+kube_pod_container_status_terminated{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1"} 0
+kube_pod_container_status_terminated{namespace="default",pod="pod0",uid="abc-0",container="pod1_con2"} 0
+kube_pod_container_status_waiting_reason{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1",reason="CrashLoopBackOff"} 1
+kube_pod_container_status_waiting{namespace="default",pod="pod0",uid="abc-0",container="pod1_con1"} 1
+kube_pod_container_status_waiting{namespace="default",pod="pod0",uid="abc-0",container="pod1_con2"} 0
 kube_pod_created{namespace="default",pod="pod0",uid="abc-0"} 1.5e+09
 kube_pod_info{namespace="default",pod="pod0",uid="abc-0",host_ip="1.1.1.1",pod_ip="1.2.3.4",node="node1",created_by_kind="<none>",created_by_name="<none>",priority_class="",host_network="false"} 1
 kube_pod_labels{namespace="default",pod="pod0",uid="abc-0"} 1
@@ -779,7 +781,7 @@ func pod(client *fake.Clientset, index int) error {
 			Phase:  v1.PodRunning,
 			ContainerStatuses: []v1.ContainerStatus{
 				{
-					Name:        "container2",
+					Name:        "pod1_con1",
 					Image:       "k8s.gcr.io/hyperkube2",
 					ImageID:     "docker://sha256:bbb",
 					ContainerID: "docker://cd456",
@@ -795,7 +797,7 @@ func pod(client *fake.Clientset, index int) error {
 					},
 				},
 				{
-					Name:        "container3",
+					Name:        "pod1_con2",
 					Image:       "k8s.gcr.io/hyperkube3",
 					ImageID:     "docker://sha256:ccc",
 					ContainerID: "docker://ef789",

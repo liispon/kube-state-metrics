@@ -45,6 +45,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container1",
 							Image: "k8s.gcr.io/hyperkube1_spec",
 						},
 					},
@@ -76,14 +77,17 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container2",
 							Image: "k8s.gcr.io/hyperkube2_spec",
 						},
 						{
+							Name:  "container3",
 							Image: "k8s.gcr.io/hyperkube3_spec",
 						},
 					},
 					InitContainers: []v1.Container{
 						{
+							Name:  "initContainer",
 							Image: "k8s.gcr.io/initfoo_spec",
 						},
 					},
@@ -133,6 +137,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container1",
 							Image: "k8s.gcr.io/hyperkube1_spec",
 						},
 					},
@@ -162,9 +167,11 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container2",
 							Image: "k8s.gcr.io/hyperkube2_spec",
 						},
 						{
+							Name:  "container3",
 							Image: "k8s.gcr.io/hyperkube3_spec",
 						},
 					},
@@ -200,17 +207,21 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container2",
 							Image: "k8s.gcr.io/hyperkube2_spec",
 						},
 						{
+							Name:  "container3",
 							Image: "k8s.gcr.io/hyperkube3_spec",
 						},
 					},
 					InitContainers: []v1.Container{
 						{
+							Name:  "initcontainer1",
 							Image: "k8s.gcr.io/initfoo_spec",
 						},
 						{
+							Name:  "initcontainer2",
 							Image: "k8s.gcr.io/initfoo_spec",
 						},
 					},
@@ -256,6 +267,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container1",
 							Image: "k8s.gcr.io/hyperkube1_spec",
 						},
 					},
@@ -286,6 +298,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					InitContainers: []v1.Container{
 						{
+							Name:  "initcontainer1",
 							Image: "k8s.gcr.io/initfoo_spec",
 						},
 					},
@@ -316,9 +329,11 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container2",
 							Image: "k8s.gcr.io/hyperkube2_spec",
 						},
 						{
+							Name:  "container3",
 							Image: "k8s.gcr.io/hyperkube3_spec",
 						},
 					},
@@ -354,9 +369,11 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					InitContainers: []v1.Container{
 						{
+							Name:  "initcontainer2",
 							Image: "k8s.gcr.io/initfoo_spec",
 						},
 						{
+							Name:  "initcontainer3",
 							Image: "k8s.gcr.io/initfoo_spec",
 						},
 					},
@@ -392,11 +409,13 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container1",
 							Image: "k8s.gcr.io/hyperkube2_spec",
 						},
 					},
 					InitContainers: []v1.Container{
 						{
+							Name:  "initcontainer1",
 							Image: "k8s.gcr.io/initfoo_spec",
 						},
 					},
@@ -478,6 +497,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container1",
 							Image: "k8s.gcr.io/hyperkube1_spec",
 						},
 					},
@@ -535,9 +555,11 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container2",
 							Image: "k8s.gcr.io/hyperkube2_spec",
 						},
 						{
+							Name:  "container3",
 							Image: "k8s.gcr.io/hyperkube3_spec",
 						},
 					},
@@ -607,6 +629,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container4",
 							Image: "k8s.gcr.io/hyperkube4_spec",
 						},
 					},
@@ -668,6 +691,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container7",
 							Image: "k8s.gcr.io/hyperkube7_spec",
 						},
 					},
@@ -732,6 +756,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container7",
 							Image: "k8s.gcr.io/hyperkube7_spec",
 						},
 					},
@@ -796,6 +821,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container5",
 							Image: "k8s.gcr.io/hyperkube5_spec",
 						},
 					},
@@ -847,6 +873,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container6",
 							Image: "k8s.gcr.io/hyperkube1_spec",
 						},
 					},
@@ -898,6 +925,7 @@ func TestPodStore(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
+							Name:  "container8",
 							Image: "k8s.gcr.io/hyperkube1_spec",
 						},
 					},
@@ -959,8 +987,16 @@ func TestPodStore(t *testing.T) {
 					},
 				},
 				Status: v1.PodStatus{
-					HostIP:    "1.1.1.1",
-					PodIP:     "1.2.3.4",
+					HostIP: "1.1.1.1",
+					PodIP:  "1.2.3.4",
+					PodIPs: []v1.PodIP{
+						{
+							IP: "1.2.3.4",
+						},
+						{
+							IP: "fc00:1234:5678:90ab:cdef:cafe:f00d:d00d",
+						},
+					},
 					StartTime: &metav1StartTime,
 				},
 			},
@@ -969,19 +1005,23 @@ func TestPodStore(t *testing.T) {
 				# HELP kube_pod_completion_time Completion time in unix timestamp for a pod.
 				# HELP kube_pod_created Unix creation timestamp
 				# HELP kube_pod_info Information about pod.
+				# HELP kube_pod_ips Pod IP addresses
 				# HELP kube_pod_owner Information about the Pod's owner.
 				# HELP kube_pod_start_time Start time in unix timestamp for a pod.
 				# TYPE kube_pod_completion_time gauge
 				# TYPE kube_pod_created gauge
 				# TYPE kube_pod_info gauge
+				# TYPE kube_pod_ips gauge
 				# TYPE kube_pod_owner gauge
 				# TYPE kube_pod_start_time gauge
 				kube_pod_created{namespace="ns1",pod="pod1",uid="abc-123-xxx"} 1.5e+09
 				kube_pod_info{created_by_kind="<none>",created_by_name="<none>",host_ip="1.1.1.1",namespace="ns1",node="node1",pod="pod1",pod_ip="1.2.3.4",uid="abc-123-xxx",priority_class="system-node-critical",host_network="true"} 1
+				kube_pod_ips{namespace="ns1",pod="pod1",uid="abc-123-xxx",ip="1.2.3.4",ip_family="4"} 1
+				kube_pod_ips{namespace="ns1",pod="pod1",uid="abc-123-xxx",ip="fc00:1234:5678:90ab:cdef:cafe:f00d:d00d",ip_family="6"} 1
 				kube_pod_start_time{namespace="ns1",pod="pod1",uid="abc-123-xxx"} 1.501569018e+09
 				kube_pod_owner{namespace="ns1",owner_is_controller="<none>",owner_kind="<none>",owner_name="<none>",pod="pod1",uid="abc-123-xxx"} 1
 `,
-			MetricNames: []string{"kube_pod_created", "kube_pod_info", "kube_pod_start_time", "kube_pod_completion_time", "kube_pod_owner"},
+			MetricNames: []string{"kube_pod_created", "kube_pod_info", "kube_pod_ips", "kube_pod_start_time", "kube_pod_completion_time", "kube_pod_owner"},
 		},
 		{
 			Obj: &v1.Pod{
@@ -1063,12 +1103,15 @@ func TestPodStore(t *testing.T) {
 					NodeName: "node2",
 					Containers: []v1.Container{
 						{
+							Name:  "container2_1",
 							Image: "k8s.gcr.io/hyperkube2_spec",
 						},
 						{
+							Name:  "container2_2",
 							Image: "k8s.gcr.io/hyperkube2_spec",
 						},
 						{
+							Name:  "container2_3",
 							Image: "k8s.gcr.io/hyperkube2_spec",
 						},
 					},
@@ -1908,12 +1951,15 @@ func BenchmarkPodStore(b *testing.B) {
 		Spec: v1.PodSpec{
 			Containers: []v1.Container{
 				{
+					Name:  "container1",
 					Image: "k8s.gcr.io/hyperkube1_spec",
 				},
 				{
+					Name:  "container2",
 					Image: "k8s.gcr.io/hyperkube1_spec",
 				},
 				{
+					Name:  "container3",
 					Image: "k8s.gcr.io/hyperkube1_spec",
 				},
 			},
@@ -1937,7 +1983,7 @@ func BenchmarkPodStore(b *testing.B) {
 					},
 				},
 				{
-					Name:         "container1",
+					Name:         "container2",
 					Image:        "k8s.gcr.io/hyperkube1",
 					ImageID:      "docker://sha256:aaa",
 					ContainerID:  "docker://ab123",
@@ -1953,7 +1999,7 @@ func BenchmarkPodStore(b *testing.B) {
 					},
 				},
 				{
-					Name:         "container1",
+					Name:         "container3",
 					Image:        "k8s.gcr.io/hyperkube1",
 					ImageID:      "docker://sha256:aaa",
 					ContainerID:  "docker://ab123",
@@ -1972,7 +2018,7 @@ func BenchmarkPodStore(b *testing.B) {
 		},
 	}
 
-	expectedFamilies := 44
+	expectedFamilies := 45
 	for n := 0; n < b.N; n++ {
 		families := f(pod)
 		if len(families) != expectedFamilies {
